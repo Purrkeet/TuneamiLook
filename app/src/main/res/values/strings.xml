@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TuneaMiLook</string>
+
+    <string name="title_activity_seleccion_color">seleccionColor</string>
 </resources>
