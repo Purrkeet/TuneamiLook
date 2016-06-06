@@ -1,10 +1,14 @@
 package layout.seleccionColor;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.MenuItem;
@@ -117,9 +121,18 @@ public class seleccionColor extends AppCompatActivity {
         // while interacting with the UI.
        // findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
         imagenAUsar = (ImageView) findViewById(R.id.imgPrenda);
+        final Bitmap bitmap = ((BitmapDrawable) imagenAUsar.getDrawable()).getBitmap();
         imagenAUsar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                int x = (int)event.getX() - (int)imagenAUsar.getX();
+                int y = (int)event.getY()- (int)imagenAUsar.getY();
+                int pixel = bitmap.getPixel(x,y);
+
+                int redValue = Color.red(pixel);
+                int blueValue = Color.blue(pixel);
+                int greenValue = Color.green(pixel);
+                Log.d("PRUEBA","R:"+redValue+" G:"+greenValue+" B:"+blueValue);
                 System.out.print(event.getAction());
                 return false;
             }
