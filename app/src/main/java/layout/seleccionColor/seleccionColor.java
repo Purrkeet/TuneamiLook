@@ -3,6 +3,7 @@ package layout.seleccionColor;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -125,8 +126,32 @@ public class seleccionColor extends AppCompatActivity {
         imagenAUsar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int x = (int)event.getX() - (int)imagenAUsar.getX();
-                int y = (int)event.getY()- (int)imagenAUsar.getY();
+                //escalamiento del touch en la imagen
+                float eventX = event.getX();
+                float eventY = event.getY();
+                float[] eventXY = new float[] {eventX, eventY};
+
+                Matrix invertMatrix = new Matrix();
+                ((ImageView)v).getImageMatrix().invert(invertMatrix);
+
+                invertMatrix.mapPoints(eventXY);
+                int x = Integer.valueOf((int)eventXY[0]);
+                int y = Integer.valueOf((int)eventXY[1]);
+
+                //Limit x, y range within bitmap
+                if(x < 0){
+                    x = 0;
+                }else if(x > bitmap.getWidth()-1){
+                    x = bitmap.getWidth()-1;
+                }
+
+                if(y < 0){
+                    y = 0;
+                }else if(y > bitmap.getHeight()-1){
+                    y = bitmap.getHeight()-1;
+                }
+                //fin reescalamiento en touch
+
                 int pixel = bitmap.getPixel(x,y);
 
                 int redValue = Color.red(pixel);
