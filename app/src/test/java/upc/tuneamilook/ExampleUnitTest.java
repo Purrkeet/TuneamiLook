@@ -1,4 +1,4 @@
-package pe.edu.upc.tuneamilook;
+package upc.tuneamilook;
 
 import org.junit.Test;
 

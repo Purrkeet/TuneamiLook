@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:padding="10dp"
+            android:id="@+id/agregarPrenda2__foot"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAllCaps="false"
+                android:padding="12dp"
+                android:id="@+id/agregarPrenda2__buttonTomarFoto"
+                android:textColor="#f1f2f4"
+                android:background="#f97e52"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Tomar foto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/agregarPrenda2__textViewDetalle"
+            android:layout_above="@+id/agregarPrenda2__foot"
+            android:gravity="center"
+            android:textColor="#808b99"
+            android:text="Ahora debes tomar una foto."
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent" />
+
+        <ImageView
+            android:layout_above="@+id/agregarPrenda2__foot"
+            android:background="@android:color/transparent"
+            android:visibility="gone"
+            android:id="@+id/agregarPrenda2__imageViewFoto"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent" />
+
+    </RelativeLayout>
+
+</LinearLayout>

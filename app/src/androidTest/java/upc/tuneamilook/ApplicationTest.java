@@ -1,4 +1,4 @@
-package pe.edu.upc.tuneamilook;
+package upc.tuneamilook;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
