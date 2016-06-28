@@ -1,5 +1,7 @@
 package upc.tuneamilook;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,13 +13,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AgregarPrenda3Activity extends AppCompatActivity {
+    private Bitmap photoBitmap;
+    private List<String> selectedColors = new ArrayList<>();
     private String photoAbsolutePath;
-    Bitmap photoBitmap;
+
+    private String agregarPrenda_tipoPrenda;
+    private String agregarPrenda_foto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +35,10 @@ public class AgregarPrenda3Activity extends AppCompatActivity {
         setContentView(R.layout.agregar_prenda_3);
 
         Intent intent = getIntent();
-        photoAbsolutePath = intent.getStringExtra("agregarPrenda2_photoAbsolutePath");
+        agregarPrenda_tipoPrenda = intent.getStringExtra("agregarPrenda_tipoPrenda");
+        agregarPrenda_foto = intent.getStringExtra("agregarPrenda_foto");
+
+        photoAbsolutePath = intent.getStringExtra("agregarPrenda_foto");
 
         try {
             // Verificar que le orientazión de la imagen sea la correcta a la hora de imprimirla.
@@ -41,6 +54,44 @@ public class AgregarPrenda3Activity extends AppCompatActivity {
         }
 
         this.addListenerToCapturarColor();
+        this.addListenerToContinuar();
+    }
+
+    private void addListenerToContinuar() {
+        Button buttonContinuar = (Button) findViewById(R.id.agregarPrenda3__buttonContinuar);
+        if (null == buttonContinuar)
+            return;
+
+        buttonContinuar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (selectedColors.size() == 0) {
+                        new AlertDialog.Builder(AgregarPrenda3Activity.this)
+                                .setTitle("Espera")
+                                .setMessage("Debes tocar la imagen para agregar al menos un color.")
+                                .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Continuar.
+                                    }
+                                })
+                                .show();
+
+                        return;
+                    }
+
+                    Intent intent = new Intent(AgregarPrenda3Activity.this, AgregarPrenda4Activity.class);
+                    intent.putStringArrayListExtra("agregarPrenda_colores", (ArrayList<String>) selectedColors);
+
+                    intent.putExtra("agregarPrenda_foto", agregarPrenda_foto);
+                    intent.putExtra("agregarPrenda_tipoPrenda", agregarPrenda_tipoPrenda);
+
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void addListenerToCapturarColor() {
@@ -97,6 +148,7 @@ public class AgregarPrenda3Activity extends AppCompatActivity {
                     blueHex = "0" + blueHex;
 
                 String colorHex = "#" + redHex + greenHex + blueHex;
+                selectedColors.add(colorHex);
 
                 Log.e("COLOR", colorHex);
 

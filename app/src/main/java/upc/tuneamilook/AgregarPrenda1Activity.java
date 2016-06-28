@@ -1,5 +1,7 @@
 package upc.tuneamilook;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -105,13 +107,24 @@ public class AgregarPrenda1Activity extends AppCompatActivity {
                         }
                     }
 
-                    if (null == radioButtonTipoPrenda)
+                    if (null == radioButtonTipoPrenda) {
+                        new AlertDialog.Builder(AgregarPrenda1Activity.this)
+                                .setTitle("Espera")
+                                .setMessage("Debes seleccionar un tipo de prenda.")
+                                .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Continuar.
+                                    }
+                                })
+                                .show();
+
                         return;
+                    }
 
                     String tipoPrenda = radioButtonTipoPrenda.getText().toString();
 
                     Intent intent = new Intent(AgregarPrenda1Activity.this, AgregarPrenda2Activity.class);
-                    intent.putExtra("agregarPrenda1_tipoPrenda", tipoPrenda);
+                    intent.putExtra("agregarPrenda_tipoPrenda", tipoPrenda);
 
                     startActivity(intent);
                 } catch (Exception e) {

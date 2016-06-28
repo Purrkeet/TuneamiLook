@@ -29,10 +29,14 @@ public class AgregarPrenda2Activity extends AppCompatActivity {
     private Uri photoUri;
     private File photo;
 
+    private String agregarPrenda_tipoPrenda;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.agregar_prenda_2);
+
+        agregarPrenda_tipoPrenda = getIntent().getStringExtra("agregarPrenda_tipoPrenda");
 
         this.setActivityTitle("Agregar prenda");
         this.addListenerToTomarFoto();
@@ -101,7 +105,10 @@ public class AgregarPrenda2Activity extends AppCompatActivity {
                 }
 
                 Intent intentToContinue = new Intent(AgregarPrenda2Activity.this, AgregarPrenda3Activity.class);
-                intentToContinue.putExtra("agregarPrenda2_photoAbsolutePath", photo.getAbsolutePath());
+                intentToContinue.putExtra("agregarPrenda_foto", photo.getAbsolutePath());
+
+                // Página anterior.
+                intentToContinue.putExtra("agregarPrenda_tipoPrenda", agregarPrenda_tipoPrenda);
 
                 startActivity(intentToContinue);
             } catch (Exception e) {

@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +22,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".AgregarPrenda1Activity" />
         <activity android:name=".AgregarPrenda2Activity" />
-        <activity android:name=".AgregarPrenda3Activity"></activity>
+        <activity android:name=".AgregarPrenda3Activity" />
+        <activity android:name=".AgregarPrenda4Activity"></activity>
     </application>
 
 </manifest>
