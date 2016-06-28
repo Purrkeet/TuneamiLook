@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import java.io.IOException;
@@ -148,9 +149,17 @@ public class AgregarPrenda3Activity extends AppCompatActivity {
                     blueHex = "0" + blueHex;
 
                 String colorHex = "#" + redHex + greenHex + blueHex;
+
+                if (selectedColors.contains(colorHex))
+                    return false;
+
                 selectedColors.add(colorHex);
 
-                Log.e("COLOR", colorHex);
+                View layoutColor = getLayoutInflater().inflate(R.layout.element__agregar_prenda__color, null);
+                LinearLayout linearLayoutColor = (LinearLayout) layoutColor.findViewById((R.id.element__agregar_prenda__color__linearLayoutColor));
+                linearLayoutColor.setBackgroundColor(colorInteger);
+                LinearLayout linearLayoutColores = (LinearLayout) findViewById(R.id.agregarPrenda3__linearLayoutColores);
+                linearLayoutColores.addView(layoutColor);
 
                 return false;
             }
