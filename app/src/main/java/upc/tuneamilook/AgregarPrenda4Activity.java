@@ -1,23 +1,24 @@
 package upc.tuneamilook;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AgregarPrenda4Activity extends AppCompatActivity {
+    SQLiteDatabase sqLiteDatabase = null;
+    final String databaseName = "tuneamilookdb234";
 
     private String agregarPrenda_tipoPrenda;
     private String agregarPrenda_foto;
@@ -79,8 +80,87 @@ public class AgregarPrenda4Activity extends AppCompatActivity {
 
                     agregarPrenda_etiquetas = etiquetas;
 
-                    // TODO: Agregar la prenda a la base de datos.
+                    try {
+                        sqLiteDatabase = AgregarPrenda4Activity.this.openOrCreateDatabase(databaseName, MODE_PRIVATE, null);
 
+                        /**
+                         * INSERT INTO TABLE_NAME (column1, column2, column3,...columnN)]
+                         * VALUES (value1, value2, value3,...valueN);
+                         */
+
+                        // 1. Ingresar las etiquetas.
+                        List<Long> agregarPrenda_etiquetasIds = new ArrayList<>();
+                        for (int i = 0; i < agregarPrenda_etiquetas.size(); i++) {
+                            String e = agregarPrenda_etiquetas.get(i);
+
+                            ContentValues values = new ContentValues();
+                            values.put("nombre", e);
+
+                            long id = sqLiteDatabase.replace("etiquetas", null, values);
+                            agregarPrenda_etiquetasIds.add(id);
+                        }
+
+                        // 2. Ingresar los colores.
+                        List<Long> agregarPrenda_coloresIds = new ArrayList<>();
+                        for (int i = 0; i < agregarPrenda_colores.size(); i++) {
+                            String c = agregarPrenda_colores.get(i);
+
+                            ContentValues values = new ContentValues();
+                            values.put("hexadecimal", c);
+
+                            long id = sqLiteDatabase.replace("colores", null, values);
+                            agregarPrenda_coloresIds.add(id);
+                        }
+
+                        // 3. Ingresar tipo de prenda.
+                        Long agregarPrenda_tipoPrendaId;
+                        {
+                            ContentValues values = new ContentValues();
+                            values.put("nombre", agregarPrenda_tipoPrenda);
+
+                            agregarPrenda_tipoPrendaId = sqLiteDatabase.replace("tipos_prenda", null, values);
+                        }
+
+                        // 4. Ingresar prenda.
+                        Long agregarPrenda_id;
+                        {
+                            ContentValues values = new ContentValues();
+                            values.put("id_tipo_prenda", agregarPrenda_tipoPrendaId);
+                            values.put("foto", agregarPrenda_foto);
+
+                            agregarPrenda_id = sqLiteDatabase.insert("prendas", null, values);
+                        }
+
+                        // 5. Agregar colores a la prenda.
+                        for (int i = 0; i < agregarPrenda_coloresIds.size(); i++) {
+                            Long id_color = agregarPrenda_coloresIds.get(i);
+
+                            ContentValues values = new ContentValues();
+                            values.put("id_prenda", agregarPrenda_id);
+                            values.put("id_color", id_color);
+
+                            sqLiteDatabase.insert("prenda_colores", null, values);
+                        }
+
+                        // 5. Agregar colores a la prenda.
+                        for (int i = 0; i < agregarPrenda_etiquetasIds.size(); i++) {
+                            Long id_etiqueta = agregarPrenda_etiquetasIds.get(i);
+
+                            ContentValues values = new ContentValues();
+                            values.put("id_prenda", agregarPrenda_id);
+                            values.put("id_etiqueta", id_etiqueta);
+
+                            sqLiteDatabase.insert("prenda_etiquetas", null, values);
+                        }
+
+                        Intent intent = new Intent(AgregarPrenda4Activity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();

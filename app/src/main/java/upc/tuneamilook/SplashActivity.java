@@ -9,7 +9,7 @@ import android.os.Bundle;
 public class SplashActivity extends AppCompatActivity {
 
     SQLiteDatabase sqLiteDatabase = null;
-    final String databaseName = "tuneamilook";
+    final String databaseName = "tuneamilookdb234";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,22 +25,22 @@ public class SplashActivity extends AppCompatActivity {
 
             // Tipo de prenda
             sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS" +
-                    " tipo_prenda" +
+                    " tipos_prenda" +
                     " (id INTEGER PRIMARY KEY, nombre VARCHAR);");
 
             // Color
             sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS" +
-                    " color" +
+                    " colores" +
                     " (id INTEGER PRIMARY KEY, hexadecimal VARCHAR);");
 
             // Etiqueta
             sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS" +
-                    " etiqueta" +
-                    " (id INTEGER PRIMARY KEY, hexadecimal VARCHAR);");
+                    " etiquetas" +
+                    " (id INTEGER PRIMARY KEY, nombre VARCHAR);");
 
             // Prenda
             sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS" +
-                    " prenda" +
+                    " prendas" +
                     " (id INTEGER PRIMARY KEY, id_tipo_prenda INTEGER, foto VARCHAR);");
 
             // Etiquetas de cada prenda
@@ -55,7 +55,7 @@ public class SplashActivity extends AppCompatActivity {
 
             // Combinación
             sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS" +
-                    " combinacion" +
+                    " combinaciones" +
                     " (id INTEGER PRIMARY KEY, numero_prendas INTEGER);");
 
             // Prendas en cada combinación
